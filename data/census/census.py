@@ -1,3 +1,5 @@
-import config
+import data.census.key as key
+import requests
 
-api_key = config.census_api_key
+api_key = key.census_api_key
+print(api_key)
