@@ -69,15 +69,15 @@ years = [2005, 2007, 2009, 2012, 2013, 2015, 2017, 2019, 2022, 2023]
 
 for year in years:
     survey = ACS(year)
-    url = "https://api.census.gov/data/" + str(year) + "/acs/acs1/profile?get=NAME" + survey.data + "&for=congressional district:*&key=" + api_key
-    response = requests.get(url).json()
+    url = "https://api.census.gov/data/" + str(year) + "/acs/acs1/profile?get=NAME," + survey.data + "&for=congressional district:*&key=" + api_key
+    response = requests.get(url)
+    data = response.json()
 
-    df = pd.DataFrame(response)
+    df = pd.DataFrame(data[1:], columns=data[0])  # Create DataFrame and drop the first row
+    df.drop(index=0, inplace=True)  
+    df = df.rename(columns=survey.labels)
 
     print(df)
-
-base_url = "https://api.census.gov/data/" + year + "/acs/acs1/profile?get=NAME"
-geography_code = "&for=congressional district:*"
 
 # 2023 white not latino: DP05_0082PE
 # 2023 black not latino: DP05_0083PE
