@@ -3,7 +3,7 @@ import pandas as pd
 def house():
     house_data = pd.read_csv('data/political/1976-2022-house.csv')
 
-    house_data = house_data[house_data['year'] >= 2006]
+    house_data = house_data[house_data['year'] >= 2004]
     house_data = house_data.drop(['state', 'state_fips', 'state_cen', 'state_ic', 'office', 'stage', 'runoff', 'special', 'candidate', 'mode', 'unofficial', 'version', 'writein', 'fusion_ticket', 'totalvotes'], axis=1)
 
     house_data['max_votes'] = house_data.groupby(['year', 'state_po', 'district'])['candidatevotes'].transform('max')
