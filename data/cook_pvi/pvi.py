@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def process_excel():
+def process_cook_pvi():
     sheet_list = ['108th (03-04)', '109th (05-06)', '110th (07-08)', '111th (09-10)', '113th (13-14)', '114th (15-16)', '115th (17-18)', '116th (19-20)', '118th (23-24)']
     years = [2003, 2005, 2007, 2009, 2013, 2015, 2017, 2019, 2023]
 
@@ -22,8 +22,11 @@ def process_excel():
 
         df = pd.concat([df, temp_df], axis=0)
         
-    print(df)
+    cycle2012 = pd.read_csv('data/cook_pvi/cycle2012.csv', index_col= 0)
+    cycle2022 = pd.read_csv('data/cook_pvi/cycle2022.csv', index_col= 0)
 
+    df = pd.concat([df, cycle2012, cycle2022], axis=0)
+    return df
 
 def process_state_district(df):
     state_abbr = {
@@ -57,4 +60,3 @@ def process_incumbents(df):
 
     return df
 
-process_excel()
