@@ -132,6 +132,18 @@ def text_processing(df):
     return df
 
 def year_processing(df):
-    return
+    duplicate_2005 = df[df['year'] == 2005]
+    duplicate_2005['year'] = duplicate_2005['year'] - 1
 
-print(text_processing(censusDF))
+    df['year'] = df['year'].apply(lambda x: x+1 if x not in [2012, 2022] else x)
+
+    df = pd.concat([df, duplicate_2005], axis = 0)
+
+    return df
+
+def get_census_data():
+    base = district_data()
+    text = text_processing(base)
+    final_data = year_processing(text)
+
+    return final_data

@@ -1,6 +1,6 @@
 import pandas as pd
 
-def house():
+def get_house_data():
     house_data = pd.read_csv('data/political/1976-2022-house.csv')
 
     house_data = house_data[house_data['year'] >= 2004]
