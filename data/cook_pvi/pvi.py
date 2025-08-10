@@ -26,6 +26,9 @@ def process_cook_pvi():
     cycle2022 = pd.read_csv('data/cook_pvi/cycle2022.csv', index_col= 0)
 
     df = pd.concat([df, cycle2012, cycle2022], axis=0)
+
+    df = incumbent_override(df)
+
     return df
 
 def process_state_district(df):
@@ -60,3 +63,19 @@ def process_incumbents(df):
 
     return df
 
+
+def incumbent_override(df):
+    retirements = pd.read_csv('data/cook_pvi/retirements.csv')
+
+    filter_tuples = list(zip(retirements['year'], retirements['state'], retirements['district']))
+
+    # Create a temporary column to mark rows that need overriding
+    df['override'] = (df.apply(lambda row: (row['year'], row['state'], row['district']) in filter_tuples, axis=1))
+
+    # Set 'republican_incumbent' and 'democratic_incumbent' to False for the marked rows
+    df.loc[df['override'], ['republican_incumbent', 'democratic_incumbent']] = False
+
+    # Drop the temporary column
+    df = df.drop(columns=['override'])
+    
+    return df
