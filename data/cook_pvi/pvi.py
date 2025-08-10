@@ -1,6 +1,6 @@
 import pandas as pd
 
-def process_cook_pvi():
+def get_pvi_data():
     sheet_list = ['108th (03-04)', '109th (05-06)', '110th (07-08)', '111th (09-10)', '113th (13-14)', '114th (15-16)', '115th (17-18)', '116th (19-20)', '118th (23-24)']
     years = [2003, 2005, 2007, 2009, 2013, 2015, 2017, 2019, 2023]
 
@@ -12,7 +12,7 @@ def process_cook_pvi():
 
         pvi_column = str(year) + ' Cook PVI'
 
-        temp_df = pd.read_excel('data/cook_pvi/Cook PVI 1997-2025.xlsx', sheet_name=sheet)
+        temp_df = pd.read_excel('data/cook_pvi/pvi.xlsx', sheet_name=sheet)
         temp_df = process_state_district(temp_df)
         temp_df['pvi'] = temp_df[pvi_column].apply(process_pvi)
         temp_df = process_incumbents(temp_df)

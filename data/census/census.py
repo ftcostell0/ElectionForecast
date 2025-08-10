@@ -1,4 +1,4 @@
-import key
+import census.key as key
 import requests
 import json 
 import pandas as pd
@@ -108,6 +108,7 @@ def district_data():
         df = df.rename(columns={'congressional district':'district'})
 
         census_data = pd.concat([census_data, df])
+        census_data['district'] = census_data['district'].astype(int)
 
     return census_data
 
