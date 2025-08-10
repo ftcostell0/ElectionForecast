@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def process_cook_pvi():
     sheet_list = ['108th (03-04)', '109th (05-06)', '110th (07-08)', '111th (09-10)', '113th (13-14)', '114th (15-16)', '115th (17-18)', '116th (19-20)', '118th (23-24)']
     years = [2003, 2005, 2007, 2009, 2013, 2015, 2017, 2019, 2023]
@@ -63,19 +62,15 @@ def process_incumbents(df):
 
     return df
 
-
 def incumbent_override(df):
     retirements = pd.read_csv('data/cook_pvi/retirements.csv')
 
     filter_tuples = list(zip(retirements['year'], retirements['state'], retirements['district']))
 
-    # Create a temporary column to mark rows that need overriding
     df['override'] = (df.apply(lambda row: (row['year'], row['state'], row['district']) in filter_tuples, axis=1))
 
-    # Set 'republican_incumbent' and 'democratic_incumbent' to False for the marked rows
     df.loc[df['override'], ['republican_incumbent', 'democratic_incumbent']] = False
 
-    # Drop the temporary column
     df = df.drop(columns=['override'])
     
     return df
